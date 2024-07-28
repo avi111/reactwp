@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
-    <div id="header">
+    <div id="header-placeholder">
             <header>
                 <?php
                 $site_title = get_bloginfo( 'name' );

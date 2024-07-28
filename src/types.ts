@@ -81,13 +81,46 @@ export type MetaQuery = {
     type?: 'NUMERIC' | 'BINARY' | 'CHAR' | 'DATE' | 'DATETIME' | 'DECIMAL' | 'SIGNED' | 'TIME' | 'UNSIGNED';
 }[];
 
+type Query = {
+    page: string;
+    pagename: string;
+};
+
+type WP_Post = {
+    ID: number;
+    post_author: string;
+    post_date: string;
+    post_date_gmt: string;
+    post_content: string;
+    post_title: string;
+    post_excerpt: string;
+    post_status: string;
+    comment_status: string;
+    ping_status: string;
+    post_password: string;
+    post_name: string;
+    to_ping: string;
+    pinged: string;
+    post_modified: string;
+    post_modified_gmt: string;
+    post_content_filtered: string;
+    post_parent: number;
+    guid: string;
+    menu_order: number;
+    post_type: string;
+    post_mime_type: string;
+    comment_count: string;
+    filter: string;
+};
+
 export type WP_Query = {
-    query: any[];
+    query: Query;
     query_vars: QueryVars;
     tax_query: {
         queries: TaxQuery;
         relation: 'AND' | 'OR';
-        queried_terms: any[];
+        include_children?: boolean;
+        queried_terms: Array<{ term_id: number; name: string; slug: string }>;
         primary_table: string;
         primary_id_column: string;
     };
@@ -101,7 +134,7 @@ export type WP_Query = {
     };
     date_query: boolean | null;
     request: string;
-    posts: any[];
+    posts: WP_Post[];
     post_count: number;
     current_post: number;
     before_loop: boolean;
@@ -220,6 +253,26 @@ export type Menus = {
     };
 };
 
+export type Language = 'english' | 'hebrew' | 'russian';
+
+export type Translation = { [key in Language]: string };
+
+export type Content = Translation | string;
+
+export type TranslationData = {
+    [key: string]: {
+        "_edit_last"?: string[];
+        "_edit_lock"?: string[];
+        "wpcf-english"?: string[];
+        "wpcf-hebrew"?: string[];
+        "wpcf-russian"?: string[];
+        "wpcf-paragraph"?: string[];
+        "wpcf-paragraph-english"?: string[];
+        "wpcf-paragraph-hebrew"?: string[];
+        "wpcf-paragraph-russian"?: string[];
+    };
+};
+
 declare global {
     interface Window {
         object: {
@@ -227,6 +280,8 @@ declare global {
             site: SiteOptions;
             menus: Menus;
             post: string;
+            content: Content[];
+            translations: Record<string, TranslationData>;
         };
     }
 }
