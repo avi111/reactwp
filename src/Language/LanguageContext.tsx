@@ -1,6 +1,6 @@
 import {createContext, FC, ReactNode, useEffect, useState} from 'react';
 import {Language, TranslationData} from "../types.ts";
-import {snakeToRegularCase} from "../utils.ts";
+import {regularToSnakeCase, snakeToRegularCase} from "../utils.ts";
 
 // Define the shape of the context
 export interface LanguageContextType {
@@ -57,8 +57,7 @@ export const LanguageProvider: FC<LanguageProviderProps> = ({children}) => {
     const translations: Record<string, Record<Language, string>> = extractTranslation(window.object.translations);
 
     const translate = (key: string) => {
-        console.log(key);
-        const translation = translations[key];
+        const translation = translations[regularToSnakeCase(key)];
         return translation ? translation[language] : snakeToRegularCase(key);
     }
 

@@ -1,5 +1,6 @@
 <?php
 add_theme_support('menus');
+add_theme_support('title-tag');
 
 function my_theme_enqueue_scripts() {
     wp_enqueue_style( 'default-style', get_stylesheet_uri(), [], '1.0.0', 'all' ); //default styles.css
@@ -126,7 +127,7 @@ function get_translations() {
     foreach ($posts as $p) {
         setup_postdata($p);
 
-        $translations[$p->post_title] = get_post_custom($p->ID);
+        $translations[$p->post_name] = get_post_custom($p->ID);
 
         wp_reset_postdata();
     }

@@ -6,29 +6,29 @@ import Header from "./Header.tsx";
 function App() {
     const [count, setCount] = useState(0)
     const {object: {content, post, query: {posts, is_home, is_archive, query_vars, is_singular}}} = window;
-    const {language} = useLanguage();
+    const {language, translate} = useLanguage();
     const getTitle = useCallback(() => {
             if (is_home) {
                 return "home";
             }
             if (is_archive) {
                 if (query_vars.post_type) {
-                    return `archive ${query_vars.post_type}`;
+                    return `archive ${translate(query_vars.post_type)}`;
                 }
 
                 if (query_vars.category_name) {
-                    return `archive ${query_vars.category_name}`;
+                    return `archive ${translate(query_vars.category_name)}`;
                 }
 
                 if (query_vars.tag) {
-                    return `archive ${query_vars.tag}`;
+                    return `archive ${translate(query_vars.tag)}`;
                 }
 
                 return "archive";
             }
-            return posts[0].post_title;
+            return translate(posts[0].post_title);
         }
-        , [is_archive, is_home, posts, query_vars.category_name, query_vars.post_type, query_vars.tag]);
+        , [is_archive, is_home, posts, query_vars.category_name, query_vars.post_type, query_vars.tag, translate]);
 
     const title = getTitle();
 
@@ -38,7 +38,7 @@ function App() {
         }
         if (is_archive) {
             return <div>{posts.map((post) => <div>
-                    <h2>{post.post_title}</h2>
+                    <h2>{translate(post.post_title)}</h2>
                     <div dangerouslySetInnerHTML={{__html: post.post_content}}/>
                 </div>
             )}</div>;
@@ -58,16 +58,22 @@ function App() {
     }, [is_home, is_archive, is_singular, post, posts, content, language]);
 
     return (
-        <>
+        <div style={{
+            direction: language === "hebrew" ? "rtl" : "ltr",
+        }}>
             <Header/>
-            <h1>{title}</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                {getContent()}
-            </div>
-        </>
+            <main>
+                <h1>{title}</h1>
+                <div className="card">
+                    <button onClick={() => setCount((count) => count + 1)}>
+                        count is {count}
+                    </button>
+                    <article>
+                        {getContent()}
+                    </article>
+                </div>
+            </main>
+        </div>
     )
 }
 

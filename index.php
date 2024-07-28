@@ -8,6 +8,18 @@ defined( 'ABSPATH' ) || exit;
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 	<link rel="profile" href="https://gmpg.org/xfn/11" />
+	<title>
+	<?php
+            // Check if wp_get_document_title() returns a value
+            $document_title = wp_get_document_title();
+            if ( !empty($document_title) ) {
+                echo esc_html($document_title);
+            } else {
+                // Fallback to the site name if no title is set
+                bloginfo('name');
+            }
+            ?>
+	</title>
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
