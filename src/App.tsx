@@ -37,7 +37,7 @@ function App() {
             return "home content";
         }
         if (is_archive) {
-            return <div>{posts.map((post) => <div>
+            return <div>{posts.map((post) => <div key={post.ID}>
                     <h2>{translate(post.post_title)}</h2>
                     <div dangerouslySetInnerHTML={{__html: post.post_content}}/>
                 </div>
@@ -45,11 +45,11 @@ function App() {
         }
 
         if (is_singular) {
-            return content.map((block) => {
+            return content.map((block, i) => {
                 if (typeof block === "string") {
-                    return <div dangerouslySetInnerHTML={{__html: block}}/>;
+                    return <div key={i} dangerouslySetInnerHTML={{__html: block}}/>;
                 } else {
-                    return <div dangerouslySetInnerHTML={{__html: block[language]}}/>;
+                    return <div key={i} dangerouslySetInnerHTML={{__html: block[language]}}/>;
                 }
             });
         }

@@ -17,5 +17,7 @@ createRoot(document.getElementById('root')!).render(
     </React.StrictMode>,
 )
 
-hydrateRoot(document.getElementById('header-placeholder')!, <div/>);
+if(document.getElementById('header-placeholder')) {
+    hydrateRoot(document.getElementById('header-placeholder')!, <div/>);
+}
 
