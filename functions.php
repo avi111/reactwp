@@ -203,24 +203,30 @@ function get_data_map()
 
     $meta = is_singular()? get_post_custom($post->ID) : null;
 
-    $content=array();
-    if(!is_null($meta)){
+    $paragraphs = isset($meta['paragraph_repeat_group']) ? unserialize($meta['paragraph_repeat_group'][0]) : null;
+    if(!is_null($paragraphs)){
         $content=array();
-        $paragraphs = $meta['wpcf-paragraphs'];
-        foreach($paragraphs as $paragraph_slug){
-            $slug = remove_first_char_if_star($paragraph_slug);
-            if(is_layout($paragraph_slug)){
-                $layout = isset($layouts[$slug])?$layouts[$slug]:null;
-                if(!is_null($layout)){
-                    array_push($content, $layout);
+        foreach($paragraphs as $paragraph){
+            if($paragraph['translation'] && is_array($paragraph['translation'])){
+                foreach($paragraph['translation'] as $translation_slug){
+                    $translation = isset($translations[$translation_slug])?$translations[$translation_slug]:null;
+                    if(!is_null($translation)){
+                        $content[$translation_slug] = check_and_extract($translation);
+                    }
                 }
-            } else {
-                $translation = isset($translations[$slug])?$translations[$slug]:null;
-                if(!is_null($translation)){
-                    array_push($content, check_and_extract($translation));
+            }
+
+            if($paragraph['layout'] && is_array($paragraph['layout'])){
+                foreach($paragraph['layout'] as $layout_slug){
+                    $layout = isset($layouts[$layout_slug])?$layouts[$layout_slug]:null;
+                    if(!is_null($layout)){
+                        $content[$layout_slug] = $layout;
+                    }
                 }
             }
         }
+    } else {
+        $content["post_content"] = [apply_filters('the_content', do_shortcode($post->post_content))];
     }
 
     $map = array(
@@ -264,4 +270,82 @@ function enq_react()
     wp_localize_script('app', 'object', $data); //localize script to pass PHP data to JS
     wp_enqueue_script('app');
     wp_enqueue_style('my-style', get_stylesheet_directory_uri().'/dist/index.css', false, '1.0', 'all');
+}
+
+add_action( 'cmb2_admin_init', 'cmb2_sample_metaboxes' );
+/**
+ * Define the metabox and field configurations.
+ */
+function cmb2_sample_metaboxes() {
+
+$layouts = [];
+
+// Iterate through each WP_Post object
+foreach ( get_posts(array(
+                            'post_type' => 'layout',
+                            'posts_per_page' => -1, // Fetch all posts
+                        )) as $post) {
+    $layouts[$post->post_name] = $post->post_title;
+}
+
+
+    $translations = [];
+
+    // Iterate through each WP_Post object
+    foreach ( get_posts(array(
+                                    'post_type' => 'translation',
+                                    'posts_per_page' => -1, // Fetch all posts
+                                )) as $post) {
+        $translations[$post->post_name] = $post->post_title;
+    }
+
+	/**
+	 * Initiate the metabox
+	 */
+	$cmb = new_cmb2_box( array(
+		'id'            => 'paragraphs',
+		'title'         => __( 'paragraphs', 'cmb2' ),
+		'object_types'  => array( 'page', 'post' ), // Post type
+		'context'       => 'normal',
+		'priority'      => 'high',
+		'show_names'    => true, // Show field names on the left
+		// 'cmb_styles' => false, // false to disable the CMB stylesheet
+		// 'closed'     => true, // Keep the metabox closed by default
+	) );
+
+$group_field_id = $cmb->add_field( array(
+	'id'          => 'paragraph_repeat_group',
+	'type'        => 'group',
+	'description' => __( 'Generates reusable form entries', 'cmb2' ),
+	// 'repeatable'  => false, // use false if you want non-repeatable group
+	'options'     => array(
+		'group_title'       => __( 'Entry {#}', 'cmb2' ), // since version 1.1.4, {#} gets replaced by row number
+		'add_button'        => __( 'Add Another Entry', 'cmb2' ),
+		'remove_button'     => __( 'Remove Entry', 'cmb2' ),
+		'sortable'          => true,
+	),
+) );
+
+$cmb->add_group_field( $group_field_id, array(
+		'name'       => __( 'Translation', 'cmb2' ),
+    		'id'         => 'translation',
+    		'type'       => 'select',
+    	    'show_option_none' => true,
+    		'show_on_cb' => 'cmb2_hide_if_no_cats',
+    		'options'          => $translations,
+    			'repeatable' => true, // Repeatable fields are supported w/in repeatable groups (for most types)
+
+) );
+
+$cmb->add_group_field( $group_field_id, array(
+			'name'       => __( 'Layout', 'cmb2' ),
+    		'id'         => 'layout',
+    		'type'       => 'select',
+    	    'show_option_none' => true,
+    		'show_on_cb' => 'cmb2_hide_if_no_cats',
+    		'options'          => $layouts,
+    			'repeatable' => true, // Repeatable fields are supported w/in repeatable groups (for most types)
+
+) );
+
 }

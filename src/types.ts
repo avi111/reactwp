@@ -279,7 +279,7 @@ export type Language = "english" | "hebrew" | "russian";
 
 export type Translation = { [key in Language]: string };
 
-export type Content = Translation | string;
+export type Content = Record<string, Translation | string>;
 
 export type TranslationData = {
   [key: string]: {
@@ -302,7 +302,7 @@ declare global {
       site: SiteOptions;
       menus: Menus;
       post: string;
-      content: Content[];
+      content: Content;
       translations: Record<string, TranslationData>;
     };
   }

@@ -22,6 +22,7 @@ import { prefixer } from "stylis";
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
+import { TranslationData } from "./types.ts";
 
 declare module "@mui/material/styles" {
   interface Theme {
@@ -91,7 +92,21 @@ function App() {
     }
 
     if (is_singular) {
-      return content.map((block, i) => {
+      if (query_vars.name === "post") {
+        return (
+          <>
+            <div dangerouslySetInnerHTML={{ __html: content.layout }} />
+            <div
+              dangerouslySetInnerHTML={{
+                __html: (content["with-content-template"] as TranslationData)[
+                  language
+                ],
+              }}
+            />
+          </>
+        );
+      }
+      return Object.values(content).map((block, i) => {
         if (typeof block === "string") {
           return <div key={i} dangerouslySetInnerHTML={{ __html: block }} />;
         } else {
@@ -155,7 +170,9 @@ function App() {
 
   // Update the theme only if the mode changes
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-  const ColorModeContext = createContext({ toggleColorMode: () => {} });
+  const ColorModeContext = createContext({
+    toggleColorMode: () => {},
+  });
 
   const [rtl, setRtl] = useState(false);
 
