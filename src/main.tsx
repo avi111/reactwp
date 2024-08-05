@@ -9,6 +9,7 @@ if (import.meta.env.DEV) {
   // @ts-expect-error
   window.object = object;
 }
+
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <LanguageProvider>

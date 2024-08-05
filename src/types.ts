@@ -303,8 +303,17 @@ export type InjectedProps = {
   content: Content;
   translations: Record<string, TranslationData>;
 };
+
 declare global {
   interface Window {
     object: InjectedProps;
+  }
+}
+
+declare module "@mui/material/styles" {
+  interface Theme {
+    status: {
+      danger: string;
+    };
   }
 }
