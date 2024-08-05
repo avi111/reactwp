@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import "./App.css";
 import { useLanguage } from "./Language/useLanguage.ts";
 import Header from "./Theme/Header.tsx";
 import { Box, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
@@ -11,22 +10,21 @@ import LanguageSelector from "./Language/LanguageSelector.tsx";
 import { useRtl } from "./Theme/useRtl.ts";
 import { ModeSelector } from "./Theme/ModeSelector.tsx";
 import { useColorMode } from "./Theme/useColorMode.ts";
+import { InjectedProps } from "./types/types.ts";
 
-function App() {
-  const {
-    object: { content, post, query, site, translations, menus },
-  } = window;
+type AppProps = InjectedProps;
 
-  const injectedProps = { content, post, query, site, translations, menus };
-  const { value, setRtl, rtl } = useRtl();
-  const { changeLanguage } = useLanguage();
+function App(injectedProps: AppProps) {
+  const { language, languages, changeLanguage } = useLanguage();
+  const initialRtl = languages.get(language)?.isRTL;
+  const { value, setRtl, rtl } = useRtl(initialRtl || false);
 
   const { ColorModeContext, mode, colorMode } = useColorMode();
   // Update the theme only if the mode changes
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
   return (
-    <Box sx={{ direction: rtl ? "rtl" : "ltr" }}>
+    <Box sx={{ direction: rtl ? "rtl" : "ltr" }} p={2}>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />

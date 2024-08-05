@@ -23,7 +23,6 @@ export const ModeSelector = ({ handleToggleMode }: ModeSelectorProps) => {
           p: 3,
         }}
       >
-        {theme.palette.mode} mode
         <IconButton sx={{ ml: 1 }} onClick={handleToggleMode} color="inherit">
           {theme.palette.mode === "dark" ? (
             <Brightness7Icon />

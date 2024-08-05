@@ -10,10 +10,16 @@ if (import.meta.env.DEV) {
   window.object = object;
 }
 
+const {
+  object: { content, post, query, site, translations, menus },
+} = window;
+
+const injectedProps = { content, post, query, site, translations, menus };
+
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <LanguageProvider>
-      <App />
+      <App {...injectedProps} />
     </LanguageProvider>
   </React.StrictMode>,
 );
