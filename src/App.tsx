@@ -10,11 +10,8 @@ import LanguageSelector from "./Language/LanguageSelector.tsx";
 import { useRtl } from "./Theme/useRtl.ts";
 import { ModeSelector } from "./Theme/ModeSelector.tsx";
 import { useColorMode } from "./Theme/useColorMode.ts";
-import { InjectedProps } from "./types/types.ts";
 
-type AppProps = InjectedProps;
-
-function App(injectedProps: AppProps) {
+function App() {
   const { language, languages, changeLanguage } = useLanguage();
   const initialRtl = languages.get(language)?.isRTL;
   const { value, setRtl, rtl } = useRtl(initialRtl || false);
@@ -51,11 +48,11 @@ function App(injectedProps: AppProps) {
             </Header>
             <main>
               <h1>
-                <Title {...injectedProps} />
+                <Title />
               </h1>
               <div className="card">
                 <article>
-                  <Content {...injectedProps} />
+                  <Content />
                 </article>
               </div>
             </main>

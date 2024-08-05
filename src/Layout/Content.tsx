@@ -1,8 +1,9 @@
-import { InjectedProps } from "../types/types.ts";
 import { useLanguage } from "../Language/useLanguage.ts";
 import DOMPurify from "dompurify";
+import { useApp } from "../Language/useApp.ts";
 
-export const Content = ({ query, content, post }: InjectedProps) => {
+export const Content = () => {
+  const { query, content, post } = useApp();
   const { is_home, is_archive, is_singular, posts, query_vars } = query;
   const { language, translate } = useLanguage();
 

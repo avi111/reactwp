@@ -3,6 +3,7 @@ import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App.tsx";
 import object from "./dummyData/dev.ts";
 import { LanguageProvider } from "./Language/LanguageContext.tsx";
+import { AppContext } from "./Language/useApp.ts";
 
 if (import.meta.env.DEV) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -14,13 +15,24 @@ const {
   object: { content, post, query, site, translations, menus },
 } = window;
 
-const injectedProps = { content, post, query, site, translations, menus };
-
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <LanguageProvider>
-      <App {...injectedProps} />
-    </LanguageProvider>
+    <AppContext.Provider
+      value={{
+        ...{
+          content,
+          post,
+          query,
+          site,
+          translations,
+          menus,
+        },
+      }}
+    >
+      <LanguageProvider>
+        <App />
+      </LanguageProvider>
+    </AppContext.Provider>
   </React.StrictMode>,
 );
 
