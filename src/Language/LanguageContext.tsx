@@ -1,14 +1,45 @@
 import { createContext, FC, ReactNode, useEffect, useState } from "react";
-import { Language, TranslationData } from "../types/types.ts";
+import { Language, LanguageObject, TranslationData } from "../types/types.ts";
 import { regularToSnakeCase, snakeToRegularCase } from "../utils/utils.ts";
 
 // Define the shape of the context
 export interface LanguageContextType {
   language: Language;
+  languages: Map<Language, LanguageObject>;
   changeLanguage: (lang: Language) => void;
   translations: Record<string, Record<Language, string>>;
   translate: (key: string) => string;
 }
+
+const languages = new Map<Language, LanguageObject>([
+  [
+    "hebrew",
+    {
+      nativeName: "עברית",
+      englishName: "hebrew",
+      icon: "🇮🇱",
+      isRTL: true,
+    },
+  ],
+  [
+    "english",
+    {
+      nativeName: "English",
+      englishName: "english",
+      icon: "🇺🇸",
+      isRTL: false,
+    },
+  ],
+  [
+    "russian",
+    {
+      nativeName: "Русский",
+      englishName: "russian",
+      icon: "🇷🇺",
+      isRTL: false,
+    },
+  ],
+]);
 
 // Create the context with a default value
 export const LanguageContext = createContext<LanguageContextType | undefined>(
@@ -78,7 +109,7 @@ export const LanguageProvider: FC<LanguageProviderProps> = ({ children }) => {
 
   return (
     <LanguageContext.Provider
-      value={{ translations, language, changeLanguage, translate }}
+      value={{ translations, language, changeLanguage, translate, languages }}
     >
       {children}
     </LanguageContext.Provider>

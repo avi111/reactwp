@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type QueryVars = {
   error: string;
   m: string;
@@ -273,6 +275,13 @@ export type Menus = {
     items: MenuItem[];
     html: string;
   };
+};
+
+export type LanguageObject = {
+  nativeName: string;
+  englishName: Language;
+  icon: ReactNode;
+  isRTL: boolean;
 };
 
 export type Language = "english" | "hebrew" | "russian";

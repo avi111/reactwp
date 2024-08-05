@@ -1,46 +1,47 @@
-import React from "react";
 import { useLanguage } from "./useLanguage.ts";
 import { Language } from "../types/types.ts";
 import { regularToSnakeCase } from "../utils/utils.ts";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 
 const LanguageSelector = ({
   handleLanguageChange,
 }: {
   handleLanguageChange: (language: Language, rtl: boolean) => void;
 }) => {
-  const { language, translate } = useLanguage();
+  const { language, translate, languages } = useLanguage();
 
-  const onSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const onSelect = (event: SelectChangeEvent) => {
     const language = event.target.value as Language;
     handleLanguageChange(language, language === "hebrew");
   };
 
   return (
-    <div>
-      <label
-        htmlFor="language-select"
-        aria-label={translate(regularToSnakeCase("Select language"))}
-        id="language-select-label"
-      >
-        {translate(regularToSnakeCase("Select language"))}
-      </label>
-      <select
+    <FormControl>
+      {!language && (
+        <InputLabel variant="standard" id="language-select-label">
+          {translate(regularToSnakeCase("Select language"))}
+        </InputLabel>
+      )}
+      <Select
         id="language-select"
+        labelId="language-select-label"
         value={language}
         onChange={onSelect}
         aria-labelledby="language-select-label"
       >
-        <option value="english" selected={language === "english"}>
-          English
-        </option>
-        <option value="hebrew" selected={language === "hebrew"}>
-          עברית
-        </option>
-        <option value="russian" selected={language === "russian"}>
-          Русский
-        </option>
-      </select>
-    </div>
+        {[...languages.entries()].map(([lang, obj]) => (
+          <MenuItem key={lang} value={lang} selected={language === lang}>
+            {obj.icon as string} {obj.nativeName as string}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 };
 
