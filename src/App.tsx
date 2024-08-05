@@ -24,7 +24,7 @@ function App(injectedProps: AppProps) {
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
   return (
-    <Box sx={{ direction: rtl ? "rtl" : "ltr" }} p={2}>
+    <Box sx={{ direction: rtl ? "rtl" : "ltr" }} p={2} className={`${mode}`}>
       <ColorModeContext.Provider value={colorMode}>
         <ThemeProvider theme={theme}>
           <CssBaseline />

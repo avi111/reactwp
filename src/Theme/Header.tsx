@@ -90,8 +90,8 @@ function Header({ children }: { children: ReactNode }) {
               >
                 {menu.items.map((page) => (
                   <MenuItem key={page.ID} onClick={handleCloseNavMenu}>
-                    <a href={page.url}>
-                      <Typography textAlign="center">
+                    <a href={page.url} style={{ textDecoration: "none" }}>
+                      <Typography textAlign="center" color="text.primary">
                         {translate(page.title)}
                       </Typography>
                     </a>
@@ -123,7 +123,7 @@ function Header({ children }: { children: ReactNode }) {
                 <Button
                   key={page.ID}
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{ color: "text.primary" }}
                   href={page.url}
                 >
                   <Typography textAlign="center">
