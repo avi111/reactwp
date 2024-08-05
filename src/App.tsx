@@ -31,17 +31,23 @@ function App(injectedProps: AppProps) {
 
           <CacheProvider value={value}>
             <Header>
-              <LanguageSelector
-                handleLanguageChange={(language, rtl) => {
-                  changeLanguage(language);
-                  setRtl(rtl);
-                }}
-              />
-              <ModeSelector
-                handleToggleMode={() => {
-                  colorMode.toggleColorMode();
-                }}
-              />
+              <>
+                <Box>
+                  <LanguageSelector
+                    handleLanguageChange={(language, rtl) => {
+                      changeLanguage(language);
+                      setRtl(rtl);
+                    }}
+                  />
+                </Box>
+                <Box>
+                  <ModeSelector
+                    handleToggleMode={() => {
+                      colorMode.toggleColorMode();
+                    }}
+                  />
+                </Box>
+              </>
             </Header>
             <main>
               <h1>

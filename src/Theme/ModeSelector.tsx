@@ -10,27 +10,14 @@ export const ModeSelector = ({ handleToggleMode }: ModeSelectorProps) => {
   const theme = useTheme();
 
   return (
-    <div className="card">
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "center",
-          bgcolor: "background.default",
-          color: "text.primary",
-          borderRadius: 1,
-          p: 3,
-        }}
-      >
-        <IconButton sx={{ ml: 1 }} onClick={handleToggleMode} color="inherit">
-          {theme.palette.mode === "dark" ? (
-            <Brightness7Icon />
-          ) : (
-            <Brightness4Icon />
-          )}
-        </IconButton>
-      </Box>
-    </div>
+    <Box display="flex" height="100%">
+      <IconButton sx={{ ml: 1 }} onClick={handleToggleMode} color="inherit">
+        {theme.palette.mode === "dark" ? (
+          <Brightness7Icon />
+        ) : (
+          <Brightness4Icon />
+        )}
+      </IconButton>
+    </Box>
   );
 };
