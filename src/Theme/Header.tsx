@@ -1,4 +1,4 @@
-import { useLanguage } from "./Language/useLanguage.ts";
+import { useLanguage } from "../Language/useLanguage.ts";
 import { ReactNode } from "react";
 
 function Header({ children }: { children: ReactNode }) {

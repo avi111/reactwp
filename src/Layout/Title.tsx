@@ -1,5 +1,5 @@
-import { InjectedProps } from "./types.ts";
-import { useLanguage } from "./Language/useLanguage.ts";
+import { InjectedProps } from "../types/types.ts";
+import { useLanguage } from "../Language/useLanguage.ts";
 
 export const Title = ({ query }: InjectedProps) => {
   const {

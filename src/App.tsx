@@ -1,16 +1,16 @@
 import { useMemo } from "react";
 import "./App.css";
 import { useLanguage } from "./Language/useLanguage.ts";
-import Header from "./Header.tsx";
+import Header from "./Theme/Header.tsx";
 import { Box, createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { CacheProvider } from "@emotion/react";
-import { Content } from "./Content.tsx";
-import { Title } from "./Title.tsx";
-import { getDesignTokens } from "./style.ts";
+import { Content } from "./Layout/Content.tsx";
+import { Title } from "./Layout/Title.tsx";
+import { getDesignTokens } from "./Theme/style.ts";
 import LanguageSelector from "./Language/LanguageSelector.tsx";
-import { useRtl } from "./useRtl.ts";
-import { ModeSelector } from "./ModeSelector.tsx";
-import { useColorMode } from "./useColorMode.ts";
+import { useRtl } from "./Theme/useRtl.ts";
+import { ModeSelector } from "./Theme/ModeSelector.tsx";
+import { useColorMode } from "./Theme/useColorMode.ts";
 
 function App() {
   const {

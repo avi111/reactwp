@@ -1,7 +1,7 @@
 import React from "react";
 import { useLanguage } from "./useLanguage.ts";
-import { Language } from "../types.ts";
-import { regularToSnakeCase } from "../utils.ts";
+import { Language } from "../types/types.ts";
+import { regularToSnakeCase } from "../utils/utils.ts";
 
 const LanguageSelector = ({
   handleLanguageChange,

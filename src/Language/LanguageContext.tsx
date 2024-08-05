@@ -1,6 +1,6 @@
 import { createContext, FC, ReactNode, useEffect, useState } from "react";
-import { Language, TranslationData } from "../types.ts";
-import { regularToSnakeCase, snakeToRegularCase } from "../utils.ts";
+import { Language, TranslationData } from "../types/types.ts";
+import { regularToSnakeCase, snakeToRegularCase } from "../utils/utils.ts";
 
 // Define the shape of the context
 export interface LanguageContextType {

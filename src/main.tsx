@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App.tsx";
-import object from "./dev.ts";
+import object from "./dummyData/dev.ts";
 import { LanguageProvider } from "./Language/LanguageContext.tsx";
 
 if (import.meta.env.DEV) {
