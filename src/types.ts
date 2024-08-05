@@ -295,15 +295,16 @@ export type TranslationData = {
   };
 };
 
+export type InjectedProps = {
+  query: WP_Query;
+  site: SiteOptions;
+  menus: Menus;
+  post: string;
+  content: Content;
+  translations: Record<string, TranslationData>;
+};
 declare global {
   interface Window {
-    object: {
-      query: WP_Query;
-      site: SiteOptions;
-      menus: Menus;
-      post: string;
-      content: Content;
-      translations: Record<string, TranslationData>;
-    };
+    object: InjectedProps;
   }
 }

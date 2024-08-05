@@ -1,7 +1,7 @@
-import LanguageSelector from "./Language/LanguageSelector.tsx";
 import { useLanguage } from "./Language/useLanguage.ts";
+import { ReactNode } from "react";
 
-function Header() {
+function Header({ children }: { children: ReactNode }) {
   const {
     object: { menus, site },
   } = window;
@@ -13,7 +13,7 @@ function Header() {
         <a href={site.site_url}>{translate(site.site_name)}</a>
       </h1>
       <p>{translate(site.site_description)}</p>
-      <LanguageSelector />
+      {children}
       <div className="menu-main-menu-container">
         <ul className="menu">
           {menu.items.map((item) => (

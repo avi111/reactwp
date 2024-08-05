@@ -3,13 +3,16 @@ import { useLanguage } from "./useLanguage.ts";
 import { Language } from "../types.ts";
 import { regularToSnakeCase } from "../utils.ts";
 
-const LanguageSelector: React.FC = () => {
-  const { language, changeLanguage, translate } = useLanguage();
+const LanguageSelector = ({
+  handleLanguageChange,
+}: {
+  handleLanguageChange: (language: Language, rtl: boolean) => void;
+}) => {
+  const { language, translate } = useLanguage();
 
-  const handleLanguageChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    changeLanguage(event.target.value as Language);
+  const onSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const language = event.target.value as Language;
+    handleLanguageChange(language, language === "hebrew");
   };
 
   return (
@@ -24,7 +27,7 @@ const LanguageSelector: React.FC = () => {
       <select
         id="language-select"
         value={language}
-        onChange={handleLanguageChange}
+        onChange={onSelect}
         aria-labelledby="language-select-label"
       >
         <option value="english" selected={language === "english"}>
